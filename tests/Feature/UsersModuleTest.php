@@ -18,29 +18,36 @@ class UsersModuleTest extends TestCase
 
     function carga_lista_usuarios()
     {
+        Rol::create(
+            [
+                'description' => 'Admin'
+            ]
+        );
 
-        Rol::create([
-            'description' => 'Admin'
-        ]);
-
-        Rol::create([
-            'description' => 'Invited'
-        ]);
+        Rol::create(
+            [
+                'description' => 'Invited'
+            ]
+        );
 
 
-        User::create([
-            'name' => 'Juan Pintos',
-            'email' => 'antesdeldomingo@gmail.com',
-            'password' => Hash::make('juan1981_'),
-            'rol_id' => 1
-        ]);
+        User::create(
+            [
+                'name' => 'Juan Pintos',
+                'email' => 'antesdeldomingo@gmail.com',
+                'password' => Hash::make('juan1981_'),
+                'rol_id' => 1
+            ]
+        );
 
-        User::create([
-            'name' => 'Gabriela Diaz',
-            'email' => 'gabyaeof@hotmail.com',
-            'password' => Hash::make('123456'),
-            'rol_id' => 2
-        ]);
+        User::create(
+            [
+                'name' => 'Gabriela Diaz',
+                'email' => 'gabyaeof@hotmail.com',
+                'password' => Hash::make('123456'),
+                'rol_id' => 2
+            ]
+        );
 
 
         $response = $this->get('/usuarios');
@@ -84,20 +91,29 @@ class UsersModuleTest extends TestCase
         $response = $this->get('/usuarios/999');
 
         $response->assertStatus(404);
-
     }
 
     /** @test */
 
     function crear_nuevo_usuario()
     {
-        $response = $this->post('/usuarios/', [
-            'name' => 'Jorge Perez',
-            'email' => 'admin@admin.com.ar',
-            'rol_id' => 2
-        ]);
+//        $this->withoutExceptionHandling();
 
-        $response->assertStatus(404);
+        $this->post(
+            '/usuarios/',
+            [
+                'name' => 'Jorge Perez',
+                'email' => 'admin@admin.com.ar',
+                'password' => '12345'
+            ]
+        )->assertRedirect('usuarios');
 
+        $this->assertCredentials(
+            [
+                'name' => 'Jorge Perez',
+                'email' => 'admin@admin.com.ar',
+                'password' => '12345'
+            ]
+        );
     }
 }
