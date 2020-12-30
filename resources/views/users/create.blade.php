@@ -11,6 +11,9 @@
                 <div class="mb-3">
                     <label for="name" class="form-label">Nombre</label>
                     <input type="text" class="form-control" id="name" name="name">
+                    @if ($errors->has('name'))
+<p class="alert">{{ $errors->first('name') }}</p>
+                    @endif
                 </div>
                 <div class="mb-3">
                     <label for="email" class="form-label">Email</label>

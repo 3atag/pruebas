@@ -18,7 +18,7 @@
                     <th scope="col">#</th>
                     <th scope="col">Name</th>
                     <th scope="col">Email</th>
-                    <th scope="col">Rol</th>
+
                     <th scope="col"></th>
                 </tr>
                 </thead>
@@ -29,7 +29,7 @@
                         <th scope="row">{{ $user->id }}</th>
                         <td>{{ $user->name }}</td>
                         <td>{{ $user->email }}</td>
-                        <td>{{ $user->rol->description }}</td>
+
                         <td><a type="button" href="{{ route('users.show', $user) }}">Ver</a></td>
                         @empty
                             <li>No hay usuarios registrados.</li>

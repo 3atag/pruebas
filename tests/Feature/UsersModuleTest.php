@@ -85,7 +85,6 @@ class UsersModuleTest extends TestCase
 //    }
 
     /** @test */
-
     function muestra_error_404_si_no_existe_usuario()
     {
         $response = $this->get('/usuarios/999');
@@ -94,7 +93,6 @@ class UsersModuleTest extends TestCase
     }
 
     /** @test */
-
     function crear_nuevo_usuario()
     {
 //        $this->withoutExceptionHandling();
@@ -115,5 +113,26 @@ class UsersModuleTest extends TestCase
                 'password' => '12345'
             ]
         );
+    }
+
+    /** @test */
+    function el_campo_name_es_obligatorio()
+    {
+        $this->from('usuarios/nuevo')
+             ->post(
+            '/usuarios/',
+            [
+                'name' => '',
+                'email' => 'admin@admin.com.ar',
+                'password' => '12345'
+            ]
+        )->assertRedirect('usuarios/nuevo')
+        ->assertSessionHasErrors([
+            'name' => 'El campo nombre es obligatorio'
+        ]);
+
+        $this->assertDatabaseMissing('users',[
+            'email' => 'admin@admin.com.ar'
+        ]);
     }
 }
