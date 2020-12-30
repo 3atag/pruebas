@@ -95,8 +95,6 @@ class UsersModuleTest extends TestCase
     /** @test */
     function crear_nuevo_usuario()
     {
-//        $this->withoutExceptionHandling();
-
         $this->post(
             '/usuarios/',
             [
@@ -119,20 +117,120 @@ class UsersModuleTest extends TestCase
     function el_campo_name_es_obligatorio()
     {
         $this->from('usuarios/nuevo')
-             ->post(
-            '/usuarios/',
-            [
-                'name' => '',
-                'email' => 'admin@admin.com.ar',
-                'password' => '12345'
-            ]
-        )->assertRedirect('usuarios/nuevo')
-        ->assertSessionHasErrors([
-            'name' => 'El campo nombre es obligatorio'
-        ]);
+            ->post(
+                '/usuarios/',
+                [
+                    'name' => '',
+                    'email' => 'admin@admin.com.ar',
+                    'password' => '12345'
+                ]
+            )->assertRedirect('usuarios/nuevo')
+            ->assertSessionHasErrors(
+                [
+                    'name' => 'El campo nombre es obligatorio'
+                ]
+            );
 
-        $this->assertDatabaseMissing('users',[
-            'email' => 'admin@admin.com.ar'
-        ]);
+        $this->assertDatabaseMissing(
+            'users',
+            [
+                'email' => 'admin@admin.com.ar'
+            ]
+        );
     }
+
+    /** @test */
+    function el_campo_email_es_obligatorio()
+    {
+        $this->from('usuarios/nuevo')
+            ->post(
+                '/usuarios/',
+                [
+                    'name' => 'Jorge Perez',
+                    'email' => '',
+                    'password' => '12345'
+                ]
+            )->assertRedirect('usuarios/nuevo')
+            ->assertSessionHasErrors(['email']);
+
+        $this->assertEquals(0, User::count());
+    }
+
+    /** @test */
+    function el_campo_email_no_es_valido()
+    {
+        $this->from('usuarios/nuevo')
+            ->post(
+                '/usuarios/',
+                [
+                    'name' => 'Jorge Perez',
+                    'email' => 'correo-no-valido',
+                    'password' => '12345'
+                ]
+            )->assertRedirect('usuarios/nuevo')
+            ->assertSessionHasErrors(['email']);
+
+        $this->assertEquals(0, User::count());
+    }
+
+    /** @test */
+    function el_campo_email_debe_ser_unico()
+    {
+//        $this->withoutExceptionHandling();
+
+        User::factory()->create(
+            [
+                'email' => 'jorge@perez.com.ar'
+            ]
+        );
+
+        $this->from('usuarios/nuevo')
+            ->post(
+                '/usuarios/',
+                [
+                    'name' => 'Jorge Perez',
+                    'email' => 'jorge@perez.com.ar',
+                    'password' => '12345'
+                ]
+            )->assertRedirect('usuarios/nuevo')
+            ->assertSessionHasErrors(['email']);
+
+        $this->assertEquals(1, User::count());
+    }
+
+    /** @test */
+    function el_campo_password_es_obligatorio()
+    {
+        $this->from('usuarios/nuevo')
+            ->post(
+                '/usuarios/',
+                [
+                    'name' => 'Jorge Perez',
+                    'email' => 'jorge@perez.com.ar',
+                    'password' => ''
+                ]
+            )->assertRedirect('usuarios/nuevo')
+            ->assertSessionHasErrors(['password']);
+
+        $this->assertEquals(0, User::count());
+    }
+
+    /** @test */
+    function el_campo_password_debe_tene_al_menos_6_caracteres()
+    {
+        $this->from('usuarios/nuevo')
+            ->post(
+                '/usuarios/',
+                [
+                    'name' => 'Jorge Perez',
+                    'email' => 'jorge@perez.com.ar',
+                    'password' => '123'
+                ]
+            )->assertRedirect('usuarios/nuevo')
+            ->assertSessionHasErrors(['password']);
+
+        $this->assertEquals(0, User::count());
+    }
+
+
 }
