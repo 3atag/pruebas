@@ -26,6 +26,6 @@
         <server name="QUEUE_CONNECTION" value="sync"/>
         <server name="SESSION_DRIVER" value="array"/>
         <server name="TELESCOPE_ENABLED" value="false"/>
-        <server name="DB_DATABASE" value="pruebas_test"/>
+        <server name="DB_DATABASE" value="galenoz_test"/>
     </php>
 </phpunit>

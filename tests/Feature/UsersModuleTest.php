@@ -49,7 +49,6 @@ class UsersModuleTest extends TestCase
             ]
         );
 
-
         $response = $this->get('/usuarios');
 
         $response->assertStatus(200)
@@ -95,12 +94,17 @@ class UsersModuleTest extends TestCase
     /** @test */
     function crear_nuevo_usuario()
     {
+
+        $this->withoutExceptionHandling();
+
         $this->post(
             '/usuarios/',
             [
                 'name' => 'Jorge Perez',
                 'email' => 'admin@admin.com.ar',
-                'password' => '12345'
+                'password' => '123456',
+                'bio' => 'Medico Clinico',
+                'cellphone' => '2983559992'
             ]
         )->assertRedirect('usuarios');
 
@@ -108,9 +112,14 @@ class UsersModuleTest extends TestCase
             [
                 'name' => 'Jorge Perez',
                 'email' => 'admin@admin.com.ar',
-                'password' => '12345'
+                'password' => '123456'
             ]
         );
+
+        $this->assertDatabaseHas('user_profiles', [
+            'bio' => 'Medico Clinico',
+            'cellphone' => '2983559992'
+        ]);
     }
 
     /** @test */

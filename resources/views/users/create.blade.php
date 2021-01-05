@@ -39,6 +39,21 @@
                     @endif
                 </div>
 
+                <div class="mb-3">
+                    <label for="bio" class="form-label">Bio</label>
+                    <textarea type="text" class="form-control" id="bio" name="bio">
+                        {{ old('bio') }}
+                    </textarea>
+
+                    @if ($errors->has('bio'))
+                        <p class="alert alert-danger">
+                            {{ $errors->first('bio') }}
+                        </p>
+                    @endif
+
+
+                </div>
+
 
                 <button type="submit" class="btn btn-primary">Guardar</button>
             </form>
