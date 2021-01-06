@@ -43,7 +43,7 @@ class UserController extends Controller
                 'email.unique' => 'El email ingresado ya existe en el sistema',
                 'password.required' => 'El campo password es obligatorio',
                 'password.min' => 'El campo password debe contener un mínimo de 6 caracteres',
-                'cellphone.required' => 'De ingresar un teléfono celular para agregar el profesional'
+                'cellphone.required' => 'Debe ingresar un teléfono celular para agregar el profesional'
             ]
         );
 
@@ -58,7 +58,8 @@ class UserController extends Controller
         UserProfile::create(
             [
                 'bio' => $data['bio'],
-                'cellphone' => $data['cellphone']
+                'cellphone' => $data['cellphone'],
+                ''
             ]
         );
 

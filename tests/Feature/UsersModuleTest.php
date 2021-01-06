@@ -117,6 +117,7 @@ class UsersModuleTest extends TestCase
         );
 
         $this->assertDatabaseHas('user_profiles', [
+            'user_id' => User::first()->id,
             'bio' => 'Medico Clinico',
             'cellphone' => '2983559992'
         ]);

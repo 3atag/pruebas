@@ -1,64 +1,65 @@
 @extends('layout')
 
 @section('contenido')
-    <div class="row">
-        <div class="col">
+    <div class="row mt-3">
+        <div class="col-sm-8">
 
-            <h3>Nuevo usuario</h3>
+            <div class="card">
+                <div class="card-header">
+                    <h5>Nuevo usuario</h5>
+                </div>
+                <div class="card-body">
 
-            <form method="POST" action="{{ route('users.store') }}">
-                @csrf
-                <div class="mb-3">
-                    <label for="name" class="form-label">Nombre</label>
-                    <input type="text" class="form-control" id="name" name="name" value="{{ old('name') }}">
-
-                    @if ($errors->has('name'))
-                        <p class="alert alert-danger">
-                            {{ $errors->first('name') }}
-                        </p>
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <h6>Por favor corrige los errores debajo:</h6>
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
                     @endif
 
+                    <form method="POST" action="{{ route('users.store') }}">
 
-                </div>
-                <div class="mb-3">
-                    <label for="email" class="form-label">Email</label>
-                    <input type="email" class="form-control" name="email" id="email" value="{{ old('email') }}">
-                    @if ($errors->has('email'))
-                        <p class="alert alert-danger">
-                            {{ $errors->first('email') }}
-                        </p>
-                    @endif
-                </div>
-                <div class="mb-3">
-                    <label for="password" class="form-label">Password</label>
-                    <input type="password" class="form-control" id="pssword" name="password">
-                    @if ($errors->has('password'))
-                        <p class="alert alert-danger">
-                            {{ $errors->first('password') }}
-                        </p>
-                    @endif
-                </div>
+                        @csrf
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Nombre</label>
+                            <input type="text" class="form-control" id="name" name="name" value="{{ old('name') }}">
+                        </div>
 
-                <div class="mb-3">
-                    <label for="bio" class="form-label">Bio</label>
-                    <textarea type="text" class="form-control" id="bio" name="bio">
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control" name="email" id="email" value="{{ old('email') }}">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="pssword" name="password">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="bio" class="form-label">Bio</label>
+                            <textarea type="text" class="form-control" id="bio" name="bio">
                         {{ old('bio') }}
                     </textarea>
 
-                    @if ($errors->has('bio'))
-                        <p class="alert alert-danger">
-                            {{ $errors->first('bio') }}
-                        </p>
-                    @endif
+                            <div class="mb-3">
+                                <label for="phonecellcellphone" class="form-label">Celular</label>
+                                <input type="text" class="form-control" id="cellphone" name="cellphone"
+                                       value="{{ old('cellphone') }}">
+
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-sm">Crear usuario</button>
+                        <a href="{{ route('users.index') }}" class="btn btn-link btn-sm">Regresar al listado de usuarios</a>
+                    </form>
 
 
                 </div>
+            </div>
 
-
-                <button type="submit" class="btn btn-primary">Guardar</button>
-            </form>
-
-            <a href="{{ route('users.index') }}" type="button">Volver</a>
 
         </div>
     </div>

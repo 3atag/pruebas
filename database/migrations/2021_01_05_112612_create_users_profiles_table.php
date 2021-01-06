@@ -17,6 +17,10 @@ class CreateUsersProfilesTable extends Migration
 
             $table->id();
 
+            $table->unsignedBigInteger('user_id');
+
+            $table->foreign('user_id')->references('id')->on('users');
+
             $table->string('bio', 1000)->nullable();
 
             $table->string('cellphone', 20);

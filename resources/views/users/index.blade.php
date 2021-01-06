@@ -1,15 +1,14 @@
 @extends('layout')
 
 @section('contenido')
-    <div class="row">
+    <div class="row mt-3">
         <div class="col">
 
-            <h3>Usuarios</h3>
-
-            <div class="btn-group" role="group" aria-label="Basic example">
-                <a href="{{ route('users.create') }}">
-                    <button class="btn btn-primary">Nuevo</button>
-                </a>
+            <div class="d-flex justify-content-between align-items-end mb-3">
+                <h5>Usuarios</h5>
+                <p>
+                    <a href="{{ route('users.create') }}" class="btn btn-primary btn-sm">Nuevo</a>
+                </p>
             </div>
 
             <table class="table">
